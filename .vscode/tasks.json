@@ -7,7 +7,7 @@
             "command": "C:/Apps/msys64/mingw64/bin/g++.exe",
             "args": [
                 "-g",
-                "${workspaceFolder}/*.c",
+                "${workspaceFolder}/main.c",
                 "${workspaceFolder}/src/*.c",
                 "-o",
                 "${workspaceFolder}/main.exe"

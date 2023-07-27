@@ -1,8 +1,11 @@
 #include <stdio.h>
-#include "src/ext.h"
+#include "src/ArrayList.h"
 
 int main() {
-    printf("Hello from main\n");
-    helloFromExt();
+    printf("\nStart\n");
+
+    alTest();
+
+    printf("\nEnd\n");
     return 0;
 }
