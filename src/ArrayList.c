@@ -16,7 +16,7 @@ void alDelete(ArrayList** list) {
 
 void alPrint(ArrayList* list) {
     if (!list) {
-        printf("NULL;\n");
+        printf("The list is NULL;\n");
         return;
     }
 
@@ -89,7 +89,7 @@ char alGet(ArrayList* list, int index) {
     return list->array[index];
 }
 
-void alTest() {
+void arrayListTest() {
     printf("ArrayList test\n");
 
     ArrayList* list = alNew(5);
