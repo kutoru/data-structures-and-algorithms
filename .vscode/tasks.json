@@ -1,0 +1,20 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "g++.exe build active file",
+            "command": "C:/Apps/msys64/mingw64/bin/g++.exe",
+            "args": [
+                "-g",
+                "${workspaceFolder}/*.c",
+                "${workspaceFolder}/src/*.c",
+                "-o",
+                "${workspaceFolder}/main.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ]
+}
