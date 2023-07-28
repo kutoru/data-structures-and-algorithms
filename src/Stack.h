@@ -2,11 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct Node {
-    Node* next;
-    char value;
-} Node;
+#include "Node.h"
 
 typedef struct Stack {
     Node* head;

@@ -41,6 +41,7 @@ void sPush(Stack* stack, char value) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->value = value;
     newNode->next = NULL;
+    newNode->prev = NULL;
 
     if (!stack->head) {
         stack->head = newNode;

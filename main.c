@@ -3,6 +3,8 @@
 #include "src/Search.h"
 #include "src/Sort.h"
 #include "src/Stack.h"
+#include "src/Queue.h"
+#include "src/LinkedList.h"
 
 int main() {
     printf("\nStart\n");
@@ -10,7 +12,9 @@ int main() {
     // arrayListTest();
     // searchTest();
     // sortTest();
-    stackTest();
+    // stackTest();
+    // queueTest();
+    linkedListTest();
 
     printf("\nEnd\n");
     return 0;
