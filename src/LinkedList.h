@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include "Node.h"
 
+// More specifically, this is a doubly linked list
 typedef struct LinkedList {
     Node* head;
     Node* tail;
