@@ -165,6 +165,9 @@ PointArray* pathFind(Maze* maze, Point start) {
 
     walk(maze, start, map, resultPath);
 
+    free(map->array);
+    free(map);
+
     return resultPath;
 }
 
@@ -206,4 +209,11 @@ void pathFindingTest() {
     paPrint(targetPath);
 
     printf("Comparison: %d\n", paCompare(targetPath, resultPath));
+
+    free(maze->array);
+    free(maze);
+    free(resultPath->array);
+    free(resultPath);
+    free(targetPath->array);
+    free(targetPath);
 }

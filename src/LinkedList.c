@@ -152,7 +152,7 @@ char llPop(LinkedList* list, Node* node, bool beSafe) {
 }
 
 Node* llGet(LinkedList* list, int index) {
-    if (index < 0) {
+    if (index < 0 || index >= list->length) {
         return NULL;
     }
 

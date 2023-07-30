@@ -6,6 +6,7 @@
 #include "src/Queue.h"
 #include "src/LinkedList.h"
 #include "src/PathFinding.h"
+#include "src/TreeTraversal.h"
 
 int main() {
     printf("\nStart\n\n");
@@ -16,7 +17,8 @@ int main() {
     // stackTest();
     // queueTest();
     // linkedListTest();
-    pathFindingTest();
+    // pathFindingTest();
+    treeTraversalTest();
 
     printf("\nEnd\n");
     return 0;
