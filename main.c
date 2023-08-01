@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "src/ArrayList.h"
 #include "src/Search.h"
 #include "src/Sort.h"
@@ -6,7 +7,8 @@
 #include "src/Queue.h"
 #include "src/LinkedList.h"
 #include "src/PathFinding.h"
-#include "src/TreeTraversal.h"
+#include "src/BinaryTree.h"
+#include "src/BinarySearchTree.h"
 
 int main() {
     printf("\nStart\n\n");
@@ -18,7 +20,8 @@ int main() {
     // queueTest();
     // linkedListTest();
     // pathFindingTest();
-    treeTraversalTest();
+    // treeTraversalTest();
+    binarySearchTreeTest();
 
     printf("\nEnd\n");
     return 0;

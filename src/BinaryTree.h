@@ -2,13 +2,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "ArrayList.h"
-
-typedef struct BTNode {
-    char value;
-    BTNode* left;
-    BTNode* right;
-} BTNode;
+#include "Queue.h"
 
 typedef struct BinaryTree {
     BTNode* root;

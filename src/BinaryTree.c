@@ -1,4 +1,4 @@
-#include "TreeTraversal.h"
+#include "BinaryTree.h"
 
 void _recInsert(BTNode* node, char* array, int currIndex, int len) {
     int leftIndex = currIndex * 2 + 1;
@@ -153,6 +153,54 @@ ArrayList* postOrderTraversal(BinaryTree* tree) {
     return array;
 }
 
+ArrayList* breadthFirstTraversal(BinaryTree* tree) {
+    ArrayList* list = alNew(btGetSize(tree));
+    Queue* queue = qNew(BTNODE);
+
+    ANYTYPE tempVal;
+    tempVal.dataType = BTNODE;
+    tempVal.value.btn = tree->root;
+    qPush(queue, tempVal);
+
+    while (queue->length > 0) {
+        BTNode* node = qPop(queue).value.btn;
+        alPush(list, node->value);
+
+        if (node->left) {
+            tempVal.value.btn = node->left;
+            qPush(queue, tempVal);
+        }
+        if (node->right) {
+            tempVal.value.btn = node->right;
+            qPush(queue, tempVal);
+        }
+    }
+
+    return list;
+}
+
+bool _recCompareTrees(BTNode* node1, BTNode* node2) {
+    if (!node1 && !node2) {
+        return true;
+    }
+
+    if (!node1 || !node2) {
+        return false;
+    }
+
+    if (node1->value != node2->value) {
+        return false;
+    }
+
+    return
+        _recCompareTrees(node1->left, node2->left) &&
+        _recCompareTrees(node1->right, node2->right);
+}
+
+bool compareTrees(BinaryTree* tree1, BinaryTree* tree2) {
+    return _recCompareTrees(tree1->root, tree2->root);
+}
+
 void treeTraversalTest() {
     printf("Tree traversal test\n");
 
@@ -173,6 +221,19 @@ void treeTraversalTest() {
     alPrint(postList);
     alDelete(&postList);
 
+    ArrayList* bfList = breadthFirstTraversal(tree);
+    alPrint(bfList);
+    alDelete(&bfList);
+
+    char array2[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p'};
+    int len2 = 14;
+    BinaryTree* tree2 = btNewFromArray(array2, len2);
+    btPrint(tree2);
+
+    printf("Comparison: %d;\n", compareTrees(tree, tree2));
+
     btDelete(&tree);
     btPrint(tree);
+    btDelete(&tree2);
+    btPrint(tree2);
 }
