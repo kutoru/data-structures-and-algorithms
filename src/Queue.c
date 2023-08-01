@@ -1,9 +1,11 @@
 #include "Queue.h"
 
-Queue* qNew() {
+Queue* qNew(DataType dataType) {
     Queue* queue = (Queue*)malloc(sizeof(Queue));
+    queue->dataType = dataType;
     queue->head = NULL;
     queue->tail = NULL;
+    queue->length = 0;
     return queue;
 }
 
@@ -25,6 +27,8 @@ void qPrint(Queue* queue) {
         return;
     }
 
+    printf("Len: %d;", queue->length);
+
     if (!queue->head) {
         printf("The head is NULL;\n");
         return;
@@ -32,13 +36,17 @@ void qPrint(Queue* queue) {
 
     Node* temp = queue->head;
     while (temp) {
-        printf("%c", temp->value);
+        printNode(temp);
         temp = temp->next;
     }
     printf(";\n");
 }
 
-void qPush(Queue* queue, char value) {
+void qPush(Queue* queue, ANYTYPE value) {
+    if (value.dataType != queue->dataType) {
+        return;
+    }
+
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->value = value;
     newNode->next = NULL;
@@ -51,14 +59,16 @@ void qPush(Queue* queue, char value) {
         queue->tail->next = newNode;
         queue->tail = queue->tail->next;
     }
+
+    queue->length++;
 }
 
-char qPop(Queue* queue) {
+ANYTYPE qPop(Queue* queue) {
     if (!queue->head) {
-        return '\0';
+        return (ANYTYPE) {NONE};
     }
 
-    char oldValue = queue->head->value;
+    ANYTYPE oldValue = queue->head->value;
 
     Node* toDelete = queue->head;
     if (queue->head == queue->tail) {
@@ -67,12 +77,13 @@ char qPop(Queue* queue) {
     queue->head = queue->head->next;
     free(toDelete);
 
+    queue->length--;
     return oldValue;
 }
 
-char qPeek(Queue* queue) {
+ANYTYPE qPeek(Queue* queue) {
     if (!queue->head) {
-        return '\0';
+        return (ANYTYPE) {NONE};
     }
 
     return queue->head->value;
@@ -81,29 +92,29 @@ char qPeek(Queue* queue) {
 void queueTest() {
     printf("Queue test\n");
 
-    Queue* queue = qNew();
+    Queue* queue = qNew(CHAR);
     qPrint(queue);
 
-    qPush(queue, 'k');
+    qPush(queue, (ANYTYPE) {CHAR, 'k'});
     qPrint(queue);
-    printf("Pop: %c\n", qPop(queue));
+    printf("Pop: %c\n", qPop(queue).value.c);
     qPrint(queue);
-    printf("Pop: %c\n", qPop(queue));
+    printf("Pop: %c\n", qPop(queue).value.c);
 
-    qPush(queue, 'u');
-    qPush(queue, 't');
-    qPush(queue, 'o');
-    qPush(queue, 'r');
+    qPush(queue, (ANYTYPE) {CHAR, 'u'});
+    qPush(queue, (ANYTYPE) {CHAR, 't'});
+    qPush(queue, (ANYTYPE) {CHAR, 'o'});
+    qPush(queue, (ANYTYPE) {CHAR, 'r'});
     qPrint(queue);
 
-    printf("Peek: %c\n", qPeek(queue));
-    printf("Pop: %c\n", qPop(queue));
+    printf("Peek: %c\n", qPeek(queue).value.c);
+    printf("Pop: %c\n", qPop(queue).value.c);
     qPrint(queue);
-    qPush(queue, 'a');
-    qPush(queue, 'b');
+    qPush(queue, (ANYTYPE) {CHAR, 'a'});
+    qPush(queue, (ANYTYPE) {CHAR, 'b'});
     qPrint(queue);
-    printf("Peek: %c\n", qPeek(queue));
-    printf("Pop: %c\n", qPop(queue));
+    printf("Peek: %c\n", qPeek(queue).value.c);
+    printf("Pop: %c\n", qPop(queue).value.c);
     qPrint(queue);
 
     qDelete(&queue);

@@ -1,7 +1,8 @@
 #include "LinkedList.h"
 
-LinkedList* llNew() {
+LinkedList* llNew(DataType dataType) {
     LinkedList* list = (LinkedList*)malloc(sizeof(LinkedList));
+    list->dataType = dataType;
     list->head = NULL;
     list->tail = NULL;
     list->length = 0;
@@ -36,7 +37,7 @@ void llPrint(LinkedList* list) {
     printf("From head:\n");
     Node* temp = list->head;
     while (temp) {
-        printf("%c", temp->value);
+        printNode(temp);
         temp = temp->next;
     }
     printf(";\n");
@@ -44,7 +45,7 @@ void llPrint(LinkedList* list) {
     printf("From tail:\n");
     temp = list->tail;
     while (temp) {
-        printf("%c", temp->value);
+        printNode(temp);
         temp = temp->prev;
     }
     printf(";\n");
@@ -65,7 +66,11 @@ bool llBelongs(LinkedList* list, Node* node) {
     return false;
 }
 
-void llPush(LinkedList* list, char value) {
+void llPush(LinkedList* list, ANYTYPE value) {
+    if (value.dataType != list->dataType) {
+        return;
+    }
+
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->value = value;
     newNode->next = NULL;
@@ -85,8 +90,9 @@ void llPush(LinkedList* list, char value) {
 
 // Inserts a new node before the passed node.
 // beSafe checks if the passed node belongs to the passed list at the cost of extra runtime.
-void llInsert(LinkedList* list, Node* node, char value, bool beSafe) {
-    if (!node) {
+void llInsert(LinkedList* list, Node* node, ANYTYPE value, bool beSafe) {
+    if (value.dataType != list->dataType || !node ||
+        node->value.dataType != list->dataType) {
         return;
     }
 
@@ -118,14 +124,14 @@ void llInsert(LinkedList* list, Node* node, char value, bool beSafe) {
 }
 
 // Removes the node from the list and frees it. Returns the node's value.
-char llPop(LinkedList* list, Node* node, bool beSafe) {
+ANYTYPE llPop(LinkedList* list, Node* node, bool beSafe) {
     if (!node) {
-        return '\0';
+        return (ANYTYPE) {NONE};
     }
 
     if (beSafe) {
         if (!llBelongs(list, node)) {
-            return '\0';
+            return (ANYTYPE) {NONE};
         }
     }
 
@@ -145,7 +151,7 @@ char llPop(LinkedList* list, Node* node, bool beSafe) {
         list->tail = prevNode;
     }
 
-    char oldValue = node->value;
+    ANYTYPE oldValue = node->value;
     free(node);
     list->length--;
     return oldValue;
@@ -190,23 +196,23 @@ int llGetIndex(LinkedList* list, Node* node) {
 void linkedListTest() {
     printf("LinkedList test\n");
 
-    LinkedList* list = llNew();
+    LinkedList* list = llNew(CHAR);
     llPrint(list);
 
-    llPush(list, 'u');
-    llPush(list, 'o');
-    llPush(list, 'r');
-    llPush(list, 'u');
+    llPush(list, (ANYTYPE) {CHAR, 'u'});
+    llPush(list, (ANYTYPE) {CHAR, 'o'});
+    llPush(list, (ANYTYPE) {CHAR, 'r'});
+    llPush(list, (ANYTYPE) {CHAR, 'u'});
     llPrint(list);
 
     Node* node = llGet(list, 1);
-    printf("Got value: %c\n", node->value);
+    printf("Got value: %c\n", node->value.value.c);
     printf("Got index: %d\n", llGetIndex(list, node));
     printf("Belongs: %d\n", llBelongs(list, node));
 
-    llInsert(list, node, 't', false);
-    llInsert(list, llGet(list, 0), 'k', false);
-    llInsert(list, llGet(list, 6), 'b', false);
+    llInsert(list, node, (ANYTYPE) {CHAR, 't'}, false);
+    llInsert(list, llGet(list, 0), (ANYTYPE) {CHAR, 'k'}, false);
+    llInsert(list, llGet(list, 6), (ANYTYPE) {CHAR, 'b'}, false);
     llPrint(list);
 
     node = llGet(list, 0);

@@ -5,16 +5,18 @@
 #include "Node.h"
 
 typedef struct Queue {
+    DataType dataType;
     Node* head;
     Node* tail;
+    int length;
 } Queue;
 
-Queue* qNew();
+Queue* qNew(DataType);
 void qDelete(Queue**);
 void qPrint(Queue*);
 
-void qPush(Queue*, char);
-char qPop(Queue*);
-char qPeek(Queue*);
+void qPush(Queue*, ANYTYPE);
+ANYTYPE qPop(Queue*);
+ANYTYPE qPeek(Queue*);
 
 void queueTest();

@@ -5,15 +5,17 @@
 #include "Node.h"
 
 typedef struct Stack {
+    DataType dataType;
     Node* head;
+    int length;
 } Stack;
 
-Stack* sNew();
+Stack* sNew(DataType);
 void sDelete(Stack**);
 void sPrint(Stack*);
 
-void sPush(Stack*, char);
-char sPop(Stack*);
-char sPeek(Stack*);
+void sPush(Stack*, ANYTYPE);
+ANYTYPE sPop(Stack*);
+ANYTYPE sPeek(Stack*);
 
 void stackTest();

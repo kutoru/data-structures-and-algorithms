@@ -1,8 +1,10 @@
 #include "Stack.h"
 
-Stack* sNew() {
+Stack* sNew(DataType dataType) {
     Stack* stack = (Stack*)malloc(sizeof(Stack));
+    stack->dataType = dataType;
     stack->head = NULL;
+    stack->length = 0;
     return stack;
 }
 
@@ -24,6 +26,8 @@ void sPrint(Stack* stack) {
         return;
     }
 
+    printf("Len: %d;", stack->length);
+
     if (!stack->head) {
         printf("The head is NULL;\n");
         return;
@@ -31,13 +35,17 @@ void sPrint(Stack* stack) {
 
     Node* temp = stack->head;
     while (temp) {
-        printf("%c", temp->value);
+        printNode(temp);
         temp = temp->next;
     }
     printf(";\n");
 }
 
-void sPush(Stack* stack, char value) {
+void sPush(Stack* stack, ANYTYPE value) {
+    if (value.dataType != stack->dataType) {
+        return;
+    }
+
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->value = value;
     newNode->next = NULL;
@@ -49,25 +57,28 @@ void sPush(Stack* stack, char value) {
         newNode->next = stack->head;
         stack->head = newNode;
     }
+
+    stack->length++;
 }
 
-char sPop(Stack* stack) {
+ANYTYPE sPop(Stack* stack) {
     if (!stack->head) {
-        return '\0';
+        return (ANYTYPE) {NONE};
     }
 
-    char oldValue = stack->head->value;
+    ANYTYPE oldValue = stack->head->value;
 
     Node* toDelete = stack->head;
     stack->head = stack->head->next;
     free(toDelete);
 
+    stack->length--;
     return oldValue;
 }
 
-char sPeek(Stack* stack) {
+ANYTYPE sPeek(Stack* stack) {
     if (!stack->head) {
-        return '\0';
+        return (ANYTYPE) {NONE};
     }
 
     return stack->head->value;
@@ -76,20 +87,20 @@ char sPeek(Stack* stack) {
 void stackTest() {
     printf("Stack test\n");
 
-    Stack* stack = sNew();
+    Stack* stack = sNew(CHAR);
     sPrint(stack);
 
-    sPush(stack, 'k');
-    sPush(stack, 'u');
-    sPush(stack, 't');
-    sPush(stack, 'o');
-    sPush(stack, 'r');
+    sPush(stack, (ANYTYPE) {CHAR, 'k'});
+    sPush(stack, (ANYTYPE) {CHAR, 'u'});
+    sPush(stack, (ANYTYPE) {CHAR, 't'});
+    sPush(stack, (ANYTYPE) {CHAR, 'o'});
+    sPush(stack, (ANYTYPE) {CHAR, 'r'});
     sPrint(stack);
 
-    printf("Pop: %c\n", sPop(stack));
+    printf("Pop: %c\n", sPop(stack).value.c);
     sPrint(stack);
-    printf("Peek: %c\n", sPeek(stack));
-    printf("Pop: %c\n", sPop(stack));
+    printf("Peek: %c\n", sPeek(stack).value.c);
+    printf("Pop: %c\n", sPop(stack).value.c);
     sPrint(stack);
 
     sDelete(&stack);
