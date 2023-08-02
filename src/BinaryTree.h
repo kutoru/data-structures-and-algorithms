@@ -10,4 +10,4 @@ typedef struct BinaryTree {
     BTNode* root;
 } BinaryTree;
 
-void treeTraversalTest();
+void binaryTreeTest();

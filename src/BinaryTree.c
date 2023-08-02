@@ -201,7 +201,7 @@ bool compareTrees(BinaryTree* tree1, BinaryTree* tree2) {
     return _recCompareTrees(tree1->root, tree2->root);
 }
 
-void treeTraversalTest() {
+void binaryTreeTest() {
     printf("Tree traversal test\n");
 
     char array1[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o'};

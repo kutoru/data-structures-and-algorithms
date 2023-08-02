@@ -9,6 +9,8 @@
 #include "src/PathFinding.h"
 #include "src/BinaryTree.h"
 #include "src/BinarySearchTree.h"
+#include "src/MinHeap.h"
+#include "src/Trie.h"
 
 int main() {
     printf("\nStart\n\n");
@@ -20,8 +22,10 @@ int main() {
     // queueTest();
     // linkedListTest();
     // pathFindingTest();
-    // treeTraversalTest();
-    binarySearchTreeTest();
+    // binaryTreeTest();
+    // binarySearchTreeTest();
+    // minHeapTest();
+    trieTest();
 
     printf("\nEnd\n");
     return 0;
