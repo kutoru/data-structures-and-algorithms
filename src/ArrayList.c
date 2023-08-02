@@ -28,7 +28,11 @@ void alPrint(ArrayList* list) {
 }
 
 void _alGrow(ArrayList* list) {
-    list->capacity = (int)(list->capacity * 1.5);
+    if (list->capacity > 1) {
+        list->capacity = (int)(list->capacity * 1.5);
+    } else {
+        list->capacity = 2;
+    }
     list->array = (char*)realloc(list->array, list->capacity * sizeof(char));
 }
 
@@ -87,6 +91,22 @@ char alGet(ArrayList* list, int index) {
     }
 
     return list->array[index];
+}
+
+ArrayList* alCloneArray(char* array, int len) {
+    ArrayList* list = alNew(len);
+    for (int i = 0; i < len; i++) {
+        alPush(list, array[i]);
+    }
+    return list;
+}
+
+ArrayList* alClone(ArrayList* list) {
+    ArrayList* newList = alNew(list->capacity);
+    for (int i = 0; i < list->length; i++) {
+        alPush(newList, alGet(list, i));
+    }
+    return newList;
 }
 
 void arrayListTest() {

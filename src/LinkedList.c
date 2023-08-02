@@ -14,6 +14,10 @@ void llDelete(LinkedList** list) {
     while (temp) {
         Node* toDelete = temp;
         temp = temp->next;
+
+        if ((*list)->dataType == ARRAYLIST) {
+            alDelete(&toDelete->value.value.al);
+        }
         free(toDelete);
     }
 
@@ -27,12 +31,12 @@ void llPrint(LinkedList* list) {
         return;
     }
 
+    printf("Len: %d;\n", list->length);
+
     if (!list->head) {
         printf("Head: %p; Tail: %p;\n", list->head, list->tail);
         return;
     }
-
-    printf("Len: %d;\n", list->length);
 
     printf("From head:\n");
     Node* temp = list->head;
@@ -42,13 +46,16 @@ void llPrint(LinkedList* list) {
     }
     printf(";\n");
 
-    printf("From tail:\n");
-    temp = list->tail;
-    while (temp) {
-        printNode(temp);
-        temp = temp->prev;
+    // Maybe I will change this boolean to an argument, or I might just delete this
+    if (false) {
+        printf("From tail:\n");
+        temp = list->tail;
+        while (temp) {
+            printNode(temp);
+            temp = temp->prev;
+        }
+        printf(";\n");
     }
-    printf(";\n");
 }
 
 bool llBelongs(LinkedList* list, Node* node) {

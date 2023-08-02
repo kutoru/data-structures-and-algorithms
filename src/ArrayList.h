@@ -18,5 +18,7 @@ void alInsert(ArrayList*, int, char);
 char alReplace(ArrayList*, int, char);
 char alPop(ArrayList*, int);
 char alGet(ArrayList*, int);
+ArrayList* alCloneArray(char*, int);
+ArrayList* alClone(ArrayList*);
 
 void arrayListTest();

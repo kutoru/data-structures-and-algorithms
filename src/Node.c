@@ -17,5 +17,8 @@ void printNode(Node* node) {
     case BTNODE:
         printf("%c", node->value.value.btn->value);
         break;
+    case ARRAYLIST:
+        alPrint(node->value.value.al);
+        break;
     }
 }
