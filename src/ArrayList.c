@@ -27,6 +27,20 @@ void alPrint(ArrayList* list) {
     printf(";\n");
 }
 
+// Temporary function
+void alPrintInt(ArrayList* list) {
+    if (!list) {
+        printf("The list is NULL;\n");
+        return;
+    }
+
+    printf("cap: %d; len: %d;\n", list->capacity, list->length);
+    for (int i = 0; i < list->length; i++) {
+        printf("%d", list->array[i]);
+    }
+    printf(";\n");
+}
+
 void _alGrow(ArrayList* list) {
     if (list->capacity > 1) {
         list->capacity = (int)(list->capacity * 1.5);
@@ -107,6 +121,29 @@ ArrayList* alClone(ArrayList* list) {
         alPush(newList, alGet(list, i));
     }
     return newList;
+}
+
+void alFill(ArrayList* list, int amount, char value) {
+    for (int i = 0; i < amount; i++) {
+        if (i >= list->length) {
+            alPush(list, value);
+        } else {
+            alReplace(list, i, value);
+        }
+    }
+}
+
+void alReverse(ArrayList* list) {
+    int len = list->length;
+    if (len < 2) {
+        return;
+    }
+
+    for (int i = 0; i < len / 2; i++) {
+        char temp = list->array[i];
+        list->array[i] = list->array[len - 1 - i];
+        list->array[len - 1 - i] = temp;
+    }
 }
 
 void arrayListTest() {
