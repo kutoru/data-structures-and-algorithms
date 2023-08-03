@@ -11,6 +11,8 @@
 #include "src/BinarySearchTree.h"
 #include "src/MinHeap.h"
 #include "src/Trie.h"
+#include "src/WeightedAdjacencyMatrix.h"
+#include "src/WeightedAdjacencyList.h"
 
 int main() {
     printf("\nStart\n\n");
@@ -25,7 +27,9 @@ int main() {
     // binaryTreeTest();
     // binarySearchTreeTest();
     // minHeapTest();
-    trieTest();
+    // trieTest();
+    // weightedAdjacencyMatrixTest();
+    weightedAdjacencyListTest();
 
     printf("\nEnd\n");
     return 0;
