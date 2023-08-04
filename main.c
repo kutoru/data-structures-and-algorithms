@@ -13,6 +13,7 @@
 #include "src/Trie.h"
 #include "src/WeightedAdjacencyMatrix.h"
 #include "src/WeightedAdjacencyList.h"
+#include "src/Map.h"
 
 int main() {
     printf("\nStart\n\n");
@@ -30,6 +31,7 @@ int main() {
     // trieTest();
     // weightedAdjacencyMatrixTest();
     // weightedAdjacencyListTest();
+    mapTest();
 
     printf("\nEnd\n");
     return 0;
