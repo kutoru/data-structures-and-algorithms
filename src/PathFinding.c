@@ -12,12 +12,11 @@ typedef struct Maze {
     int colLen;
 } Maze;
 
-// maze get
-char mzget(Maze* maze, Point point) {
+char mazeGet(Maze* maze, Point point) {
     return maze->array[(point.y * maze->rowLen) + point.x];
 }
 
-Maze* getMaze() {
+Maze* getNewMaze() {
     char mazeChars[] = {
         '#', '#', '#', '#', '#', '#', '#', '#', ' ', '#',
         '#', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#',
@@ -37,24 +36,22 @@ Maze* getMaze() {
 }
 
 // The map here is to mark the points that the algorithm has already visited
-typedef struct Map {
+typedef struct MazeMap {
     bool* array;
     int rowLen;
     int colLen;
-} Map;
+} MazeMap;
 
-// map get
-bool mpget(Map* map, Point point) {
+bool mapGet(MazeMap* map, Point point) {
     return map->array[(point.y * map->rowLen) + point.x];
 }
 
-// map set
-void mpset(Map* map, Point point, bool value) {
+void mapSet(MazeMap* map, Point point, bool value) {
     map->array[(point.y * map->rowLen) + point.x] = value;
 }
 
-Map* getNewMap() {
-    Map* map = (Map*)malloc(sizeof(Map));
+MazeMap* getNewMap() {
+    MazeMap* map = (MazeMap*)malloc(sizeof(MazeMap));
     map->array = (bool*)calloc(100, sizeof(bool));
     map->rowLen = 10;
     map->colLen = 6;
@@ -115,7 +112,7 @@ const Point directions[4] = {
     {-1, 0},
 };
 
-bool walk(Maze* maze, Point curr, Map* map, PointArray* path) {
+bool walk(Maze* maze, Point curr, MazeMap* map, PointArray* path) {
     // out of bounds
     if (curr.x < 0 || curr.x >= maze->rowLen ||
         curr.y < 0 || curr.y >= maze->colLen) {
@@ -123,23 +120,23 @@ bool walk(Maze* maze, Point curr, Map* map, PointArray* path) {
     }
 
     // on a wall
-    if (mzget(maze, curr) == '#') {
+    if (mazeGet(maze, curr) == '#') {
         return false;
     }
 
     // on the end
-    if (mzget(maze, curr) == '$') {
+    if (mazeGet(maze, curr) == '$') {
         paPush(path, curr);
         return true;
     }
 
     // already visited
-    if (mpget(map, curr)) {
+    if (mapGet(map, curr)) {
         return false;
     }
 
     // otherwise
-    mpset(map, curr, true);
+    mapSet(map, curr, true);
     paPush(path, curr);
 
     for (int i = 0; i < 4; i++) {
@@ -149,7 +146,6 @@ bool walk(Maze* maze, Point curr, Map* map, PointArray* path) {
         };
 
         bool success = walk(maze, nextLocation, map, path);
-
         if (success) {
             return true;
         }
@@ -160,14 +156,13 @@ bool walk(Maze* maze, Point curr, Map* map, PointArray* path) {
 }
 
 PointArray* pathFind(Maze* maze, Point start) {
-    Map* map = getNewMap();
+    MazeMap* map = getNewMap();
     PointArray* resultPath = paNew();
 
     walk(maze, start, map, resultPath);
 
     free(map->array);
     free(map);
-
     return resultPath;
 }
 
@@ -197,7 +192,7 @@ PointArray* getTargetPath() {
 void pathFindingTest() {
     printf("Path finding test\n");
 
-    Maze* maze = getMaze();
+    Maze* maze = getNewMaze();
     Point start = {8, 0};
 
     PointArray* resultPath = pathFind(maze, start);

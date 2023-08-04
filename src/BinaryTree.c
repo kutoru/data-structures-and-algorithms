@@ -107,7 +107,7 @@ void _recPreOrderTrav(BTNode* node, ArrayList* list) {
         return;
     }
 
-    alPush(list, node->value);
+    alAppend(list, node->value);
     _recPreOrderTrav(node->left, list);
     _recPreOrderTrav(node->right, list);
 }
@@ -125,7 +125,7 @@ void _recInOrderTrav(BTNode* node, ArrayList* list) {
     }
 
     _recInOrderTrav(node->left, list);
-    alPush(list, node->value);
+    alAppend(list, node->value);
     _recInOrderTrav(node->right, list);
 }
 
@@ -143,7 +143,7 @@ void _recPostOrderTrav(BTNode* node, ArrayList* list) {
 
     _recPostOrderTrav(node->left, list);
     _recPostOrderTrav(node->right, list);
-    alPush(list, node->value);
+    alAppend(list, node->value);
 }
 
 ArrayList* postOrderTraversal(BinaryTree* tree) {
@@ -164,7 +164,7 @@ ArrayList* breadthFirstTraversal(BinaryTree* tree) {
 
     while (queue->length > 0) {
         BTNode* node = qPop(queue).value.btn;
-        alPush(list, node->value);
+        alAppend(list, node->value);
 
         if (node->left) {
             tempVal.value.btn = node->left;

@@ -9,19 +9,19 @@ typedef struct ArrayList {
     int length;
 } ArrayList;
 
-ArrayList* alNew(int);
-void alDelete(ArrayList**);
-void alPrint(ArrayList*);
-void alPrintInt(ArrayList*);
+ArrayList* alNew(int capacity);
+void alDelete(ArrayList** list);
+void alPrint(ArrayList* list);
+void alPrintInt(ArrayList* list);
 
-void alPush(ArrayList*, char);
-void alInsert(ArrayList*, int, char);
-char alReplace(ArrayList*, int, char);
-char alPop(ArrayList*, int);
-char alGet(ArrayList*, int);
-ArrayList* alCloneArray(char*, int);
-ArrayList* alClone(ArrayList*);
-void alFill(ArrayList*, int, char);
-void alReverse(ArrayList*);
+void alAppend(ArrayList* list, char value);
+void alInsert(ArrayList* list, int index, char value);
+char alSet(ArrayList* list, int index, char value);
+char alPop(ArrayList* list, int index);
+char alGet(ArrayList* list, int index);
+ArrayList* alCloneArray(char* array, int arrayLength);
+ArrayList* alClone(ArrayList* list);
+void alFill(ArrayList* list, int fillAmount, char fillWith);
+void alReverse(ArrayList* list);
 
 void arrayListTest();

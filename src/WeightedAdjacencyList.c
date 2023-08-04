@@ -108,9 +108,9 @@ bool walk(WeightedAdjacencyList* graph, int curr, int target, ArrayList* seen, A
         return false;
     }
 
-    alReplace(seen, curr, true);
+    alSet(seen, curr, true);
 
-    alPush(path, curr);
+    alAppend(path, curr);
     if (curr == target) {
         return true;
     }
@@ -174,11 +174,11 @@ ArrayList* dijkstraShortestPath(WeightedAdjacencyList* graph, int source, int ta
     alFill(prev, graph->length, -1);
     ArrayList* dists = alNew(graph->length);
     alFill(dists, graph->length, MAX_VAL);
-    alReplace(dists, source, 0);
+    alSet(dists, source, 0);
 
     while (_hasUnvisited(seen, dists)) {
         int curr = _getLowestUnvisited(seen, dists);
-        alReplace(seen, curr, true);
+        alSet(seen, curr, true);
 
         EdgeList adjs = graph->lists[curr];
         for (int i = 0; i < adjs.length; i++) {
@@ -189,8 +189,8 @@ ArrayList* dijkstraShortestPath(WeightedAdjacencyList* graph, int source, int ta
 
             int dist = alGet(dists, curr) + edge.weight;
             if (dist < alGet(dists, edge.to)) {
-                alReplace(dists, edge.to, dist);
-                alReplace(prev, edge.to, curr);
+                alSet(dists, edge.to, dist);
+                alSet(prev, edge.to, curr);
             }
         }
     }
@@ -199,11 +199,11 @@ ArrayList* dijkstraShortestPath(WeightedAdjacencyList* graph, int source, int ta
 
     int curr = target;
     while (alGet(prev, curr) != -1) {
-        alPush(out, curr);
+        alAppend(out, curr);
         curr = alGet(prev, curr);
     }
 
-    alPush(out, source);
+    alAppend(out, source);
     alReverse(out);
 
     alDelete(&seen);

@@ -50,7 +50,7 @@ void _alGrow(ArrayList* list) {
     list->array = (char*)realloc(list->array, list->capacity * sizeof(char));
 }
 
-void alPush(ArrayList* list, char value) {
+void alAppend(ArrayList* list, char value) {
     if (list->length == list->capacity) {
         _alGrow(list);
     }
@@ -76,7 +76,8 @@ void alInsert(ArrayList* list, int index, char value) {
     list->length++;
 }
 
-char alReplace(ArrayList* list, int index, char value) {
+// If index is in bounds, sets the value at the index. Returns the old value
+char alSet(ArrayList* list, int index, char value) {
     if (index < 0 || index >= list->length) {
         return '\0';
     }
@@ -110,7 +111,7 @@ char alGet(ArrayList* list, int index) {
 ArrayList* alCloneArray(char* array, int len) {
     ArrayList* list = alNew(len);
     for (int i = 0; i < len; i++) {
-        alPush(list, array[i]);
+        alAppend(list, array[i]);
     }
     return list;
 }
@@ -118,7 +119,7 @@ ArrayList* alCloneArray(char* array, int len) {
 ArrayList* alClone(ArrayList* list) {
     ArrayList* newList = alNew(list->capacity);
     for (int i = 0; i < list->length; i++) {
-        alPush(newList, alGet(list, i));
+        alAppend(newList, alGet(list, i));
     }
     return newList;
 }
@@ -126,9 +127,9 @@ ArrayList* alClone(ArrayList* list) {
 void alFill(ArrayList* list, int amount, char value) {
     for (int i = 0; i < amount; i++) {
         if (i >= list->length) {
-            alPush(list, value);
+            alAppend(list, value);
         } else {
-            alReplace(list, i, value);
+            alSet(list, i, value);
         }
     }
 }
@@ -152,17 +153,17 @@ void arrayListTest() {
     ArrayList* list = alNew(5);
     alPrint(list);
 
-    alPush(list, 'k');
-    alPush(list, 'u');
-    alPush(list, 'o');
-    alPush(list, 'r');
+    alAppend(list, 'k');
+    alAppend(list, 'u');
+    alAppend(list, 'o');
+    alAppend(list, 'r');
     alInsert(list, 2, 'k');
     alInsert(list, 5, 'u');
     alPrint(list);
 
-    printf("Replaced char: %c\n", alReplace(list, 2, 't'));
+    printf("Replaced char: %c\n", alSet(list, 2, 't'));
     alPrint(list);
-    alPush(list, 'p');
+    alAppend(list, 'p');
     alPrint(list);
     printf("Popped char: %c\n", alPop(list, 0));
     alPrint(list);
@@ -175,12 +176,12 @@ void arrayListTest() {
     printf("Got char: %c\n", alGet(list, 6));
     printf("Got char: %c\n", alGet(list, 4));
 
-    alPush(list, ' ');
-    alPush(list, 'k');
-    alPush(list, 'u');
-    alPush(list, 'o');
-    alPush(list, 'r');
-    alPush(list, 'r');
+    alAppend(list, ' ');
+    alAppend(list, 'k');
+    alAppend(list, 'u');
+    alAppend(list, 'o');
+    alAppend(list, 'r');
+    alAppend(list, 'r');
     alPrint(list);
 
     alDelete(&list);

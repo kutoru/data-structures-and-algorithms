@@ -3,7 +3,6 @@
 BinarySearchTree* bstNew() {
     BinarySearchTree* tree = (BinarySearchTree*)malloc(sizeof(BinarySearchTree));
     tree->root = NULL;
-    tree->height = 0;
     return tree;
 }
 
@@ -39,15 +38,14 @@ void bstPrint(BinarySearchTree* tree) {
         return;
     }
 
-    printf("Height: %d;\n", tree->height);
     _recBstPrint(tree->root);
     printf(";\n");
 }
 
-int _recBstInsert(BTNode* node, char value, int currHeight) {
+void _recBstInsert(BTNode* node, char value) {
     if (node->value >= value) {
         if (node->left) {
-            return _recBstInsert(node->left, value, currHeight + 1);
+            return _recBstInsert(node->left, value);
         }
 
         BTNode* newNode = (BTNode*)malloc(sizeof(BTNode));
@@ -57,7 +55,7 @@ int _recBstInsert(BTNode* node, char value, int currHeight) {
         node->left = newNode;
     } else {
         if (node->right) {
-            return _recBstInsert(node->right, value, currHeight + 1);
+            return _recBstInsert(node->right, value);
         }
 
         BTNode* newNode = (BTNode*)malloc(sizeof(BTNode));
@@ -66,16 +64,11 @@ int _recBstInsert(BTNode* node, char value, int currHeight) {
         newNode->value = value;
         node->right = newNode;
     }
-
-    return currHeight;
 }
 
 void bstInsert(BinarySearchTree* tree, char value) {
     if (tree->root) {
-        int height = _recBstInsert(tree->root, value, 1);
-        if (height > tree->height) {
-            tree->height = height;
-        }
+        _recBstInsert(tree->root, value);
         return;
     }
 
@@ -84,7 +77,6 @@ void bstInsert(BinarySearchTree* tree, char value) {
     newNode->right = NULL;
     newNode->value = value;
     tree->root = newNode;
-    tree->height = 1;
 }
 
 bool _recBstFind(BTNode* node, char value) {
@@ -107,8 +99,50 @@ bool bstFind(BinarySearchTree* tree, char value) {
     return _recBstFind(tree->root, value);
 }
 
-// The case when a node with the value has two children is too hard to implement, I might do it later
-// Same for the case when the root has the value
+BTNode* _deleteMin(BTNode* node) {
+    if (!node) {
+        return NULL;
+    }
+
+    if (!node->left) {
+        BTNode* temp = node->right;
+        free(node);
+        return temp;
+    }
+
+    node->left = _deleteMin(node->left);
+    return node;
+}
+
+void _removeRoot(BinarySearchTree* tree) {
+    BTNode* root = tree->root;
+
+    if (root->left && root->right) {
+        BTNode* min = root->right;
+        while (min->left) {
+            min = min->left;
+        }
+
+        root->value = min->value;
+        root->right = _deleteMin(root->right);
+        return;
+    }
+
+    if (!root->left && !root->right) {
+        tree->root = NULL;
+    }
+
+    if (root->left) {
+        tree->root = root->left;
+    }
+
+    if (root->right) {
+        tree->root = root->right;
+    }
+
+    free(root);
+}
+
 void _recBstRemove(BTNode* parent, bool isLeft, BTNode* node, char value) {
     if (!node) {
         return;
@@ -126,7 +160,13 @@ void _recBstRemove(BTNode* parent, bool isLeft, BTNode* node, char value) {
 
     if (node->value == value) {
         if (node->left && node->right) {
-            // not implemented
+            BTNode* min = node->right;
+            while (min->left) {
+                min = min->left;
+            }
+
+            node->value = min->value;
+            node->right = _deleteMin(node->right);
             return;
         }
 
@@ -159,7 +199,11 @@ void _recBstRemove(BTNode* parent, bool isLeft, BTNode* node, char value) {
 }
 
 void bstRemove(BinarySearchTree* tree, char value) {
-    _recBstRemove(NULL, false, tree->root, value);
+    if (tree->root->value == value) {
+        _removeRoot(tree);
+    } else {
+        _recBstRemove(NULL, false, tree->root, value);
+    }
 }
 
 void binarySearchTreeTest() {
@@ -174,10 +218,17 @@ void binarySearchTreeTest() {
     bstInsert(tree, 'o');
     bstInsert(tree, 'R');
     bstInsert(tree, 'u');
+    bstInsert(tree, 'y');
+    bstInsert(tree, 'x');
     bstPrint(tree);
 
     printf("Find: %d;\n", bstFind(tree, 'o'));
     printf("Find: %d;\n", bstFind(tree, 'r'));
+
+    bstRemove(tree, 82);
+    bstRemove(tree, 'u');
+    bstRemove(tree, 'x');
+    bstPrint(tree);
 
     bstDelete(&tree);
     bstPrint(tree);

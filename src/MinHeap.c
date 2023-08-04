@@ -42,8 +42,8 @@ void _heapifyUp(MinHeap* heap, int index) {
     char value = alGet(heap->array, index);
 
     if (parent > value) {
-        alReplace(heap->array, index, parent);
-        alReplace(heap->array, parentIndex, value);
+        alSet(heap->array, index, parent);
+        alSet(heap->array, parentIndex, value);
         _heapifyUp(heap, parentIndex);
     }
 }
@@ -65,18 +65,18 @@ void _heapifyDown(MinHeap* heap, int index) {
     char value = alGet(heap->array, index);
 
     if (leftValue > rightValue && value > rightValue) {
-        alReplace(heap->array, index, rightValue);
-        alReplace(heap->array, rightIndex, value);
+        alSet(heap->array, index, rightValue);
+        alSet(heap->array, rightIndex, value);
         _heapifyDown(heap, rightIndex);
     } else if (rightValue > leftValue && value > leftValue) {
-        alReplace(heap->array, index, leftValue);
-        alReplace(heap->array, leftIndex, value);
+        alSet(heap->array, index, leftValue);
+        alSet(heap->array, leftIndex, value);
         _heapifyDown(heap, leftIndex);
     }
 }
 
 void mhPush(MinHeap* heap, char value) {
-    alPush(heap->array, value);
+    alAppend(heap->array, value);
     _heapifyUp(heap, heap->array->length - 1);
 }
 
@@ -90,7 +90,7 @@ char mhPop(MinHeap* heap) {
     }
 
     char lastValue = alPop(heap->array, heap->array->length - 1);
-    char outValue = alReplace(heap->array, 0, lastValue);
+    char outValue = alSet(heap->array, 0, lastValue);
     _heapifyDown(heap, 0);
 
     return outValue;

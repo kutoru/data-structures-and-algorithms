@@ -35,13 +35,13 @@ void _recGather(TrieNode* node, LinkedList* wordList, ArrayList* word) {
         allocated = true;
     }
 
-    alPush(word, node->value);
+    alAppend(word, node->value);
 
     if (node->isWord) {
         ANYTYPE temp;
         temp.dataType = ARRAYLIST;
         temp.value.al = alClone(word);
-        llPush(wordList, temp);
+        llAppend(wordList, temp);
     }
 
     for (int i = 0; i < 26; i++) {
@@ -223,7 +223,7 @@ void trieTest() {
     printf("\nTrie find:\n");
 
     printf("Find: %d;\n", trieFind(trie, word1));
-    alReplace(word2, 1, 'g');
+    alSet(word2, 1, 'g');
     printf("Find: %d;\n", trieFind(trie, word2));
     printf("Find: %d;\n", trieFind(trie, word3));
     printf("Find: %d;\n", trieFind(trie, word4));

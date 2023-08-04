@@ -7,15 +7,14 @@
 
 typedef struct BinarySearchTree {
     BTNode* root;
-    int height;
 } BinarySearchTree;
 
 BinarySearchTree* bstNew();
-void bstDelete(BinarySearchTree**);
-void bstPrint(BinarySearchTree*);
+void bstDelete(BinarySearchTree** tree);
+void bstPrint(BinarySearchTree* tree);
 
-void bstInsert(BinarySearchTree*, char);
-bool bstFind(BinarySearchTree*, char);
-void bstRemove(BinarySearchTree*, char);
+void bstInsert(BinarySearchTree* tree, char value);
+bool bstFind(BinarySearchTree* tree, char value);
+void bstRemove(BinarySearchTree* tree, char value);
 
 void binarySearchTreeTest();

@@ -73,9 +73,9 @@ bool llBelongs(LinkedList* list, Node* node) {
     return false;
 }
 
-void llPush(LinkedList* list, ANYTYPE value) {
+Node* llAppend(LinkedList* list, ANYTYPE value) {
     if (value.dataType != list->dataType) {
-        return;
+        return NULL;
     }
 
     Node* newNode = (Node*)malloc(sizeof(Node));
@@ -93,19 +93,42 @@ void llPush(LinkedList* list, ANYTYPE value) {
     }
 
     list->length++;
+    return newNode;
+}
+
+Node* llPrepend(LinkedList* list, ANYTYPE value) {
+    if (value.dataType != list->dataType) {
+        return NULL;
+    }
+
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->value = value;
+    newNode->next = NULL;
+    newNode->prev = NULL;
+
+    if (!list->head) {
+        list->head = newNode;
+        list->tail = newNode;
+    } else {
+        newNode->next = list->head;
+        list->head->prev = newNode;
+        list->head = newNode;
+    }
+
+    list->length++;
+    return newNode;
 }
 
 // Inserts a new node before the passed node.
-// beSafe checks if the passed node belongs to the passed list at the cost of extra runtime.
-void llInsert(LinkedList* list, Node* node, ANYTYPE value, bool beSafe) {
+Node* llInsert(LinkedList* list, Node* node, ANYTYPE value, bool beSafe) {
     if (value.dataType != list->dataType || !node ||
         node->value.dataType != list->dataType) {
-        return;
+        return NULL;
     }
 
     if (beSafe) {
         if (!llBelongs(list, node)) {
-            return;
+            return NULL;
         }
     }
 
@@ -128,6 +151,7 @@ void llInsert(LinkedList* list, Node* node, ANYTYPE value, bool beSafe) {
     }
 
     list->length++;
+    return newNode;
 }
 
 // Removes the node from the list and frees it. Returns the node's value.
@@ -206,10 +230,10 @@ void linkedListTest() {
     LinkedList* list = llNew(CHAR);
     llPrint(list);
 
-    llPush(list, (ANYTYPE) {CHAR, 'u'});
-    llPush(list, (ANYTYPE) {CHAR, 'o'});
-    llPush(list, (ANYTYPE) {CHAR, 'r'});
-    llPush(list, (ANYTYPE) {CHAR, 'u'});
+    llAppend(list, (ANYTYPE) {CHAR, 'u'});
+    llAppend(list, (ANYTYPE) {CHAR, 'o'});
+    llAppend(list, (ANYTYPE) {CHAR, 'r'});
+    llAppend(list, (ANYTYPE) {CHAR, 'u'});
     llPrint(list);
 
     Node* node = llGet(list, 1);

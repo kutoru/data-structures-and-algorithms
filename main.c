@@ -29,7 +29,7 @@ int main() {
     // minHeapTest();
     // trieTest();
     // weightedAdjacencyMatrixTest();
-    weightedAdjacencyListTest();
+    // weightedAdjacencyListTest();
 
     printf("\nEnd\n");
     return 0;

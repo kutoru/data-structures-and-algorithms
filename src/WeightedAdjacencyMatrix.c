@@ -50,7 +50,7 @@ ArrayList* bfs(WeightedAdjacencyMatrix* graph, int source, int target) {
     ArrayList* prev = alNew(graph->length);
     alFill(prev, graph->length, -1);
 
-    alReplace(seen, source, 1);
+    alSet(seen, source, 1);
     Queue* queue = qNew(CHAR);
     qPush(queue, (ANYTYPE) {CHAR, source});
 
@@ -69,8 +69,8 @@ ArrayList* bfs(WeightedAdjacencyMatrix* graph, int source, int target) {
                 continue;
             }
 
-            alReplace(seen, i, true);
-            alReplace(prev, i, curr);
+            alSet(seen, i, true);
+            alSet(prev, i, curr);
             qPush(queue, (ANYTYPE) {CHAR, i});
         }
     } while (queue->length > 0);
@@ -86,11 +86,11 @@ ArrayList* bfs(WeightedAdjacencyMatrix* graph, int source, int target) {
 
     int curr = target;
     while (alGet(prev, curr) != -1) {
-        alPush(out, curr);
+        alAppend(out, curr);
         curr = alGet(prev, curr);
     }
 
-    alPush(out, source);
+    alAppend(out, source);
     alReverse(out);
 
     alDelete(&prev);
