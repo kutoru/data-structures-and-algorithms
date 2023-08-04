@@ -35,7 +35,7 @@ void sPrint(Stack* stack) {
 
     Node* temp = stack->head;
     while (temp) {
-        printNode(temp);
+        printValue(temp->value);
         temp = temp->next;
     }
     printf(";\n");

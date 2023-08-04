@@ -1,6 +1,10 @@
 #include "LinkedList.h"
 
 LinkedList* llNew(DataType dataType) {
+    if (dataType == NODE || dataType == BTNODE) {
+        return NULL;
+    }
+
     LinkedList* list = (LinkedList*)malloc(sizeof(LinkedList));
     list->dataType = dataType;
     list->head = NULL;
@@ -9,15 +13,19 @@ LinkedList* llNew(DataType dataType) {
     return list;
 }
 
-void llDelete(LinkedList** list) {
+// If cleanupValues is true, it will try to free any additional memory within nodes (memory such as array lists)
+void llDelete(LinkedList** list, bool cleanupValues) {
     Node* temp = (*list)->head;
     while (temp) {
         Node* toDelete = temp;
         temp = temp->next;
 
-        if ((*list)->dataType == ARRAYLIST) {
-            alDelete(&toDelete->value.value.al);
+        if (cleanupValues) {
+            if ((*list)->dataType == ARRAYLIST) {
+                alDelete(&toDelete->value.value.al);
+            }
         }
+
         free(toDelete);
     }
 
@@ -33,29 +41,12 @@ void llPrint(LinkedList* list) {
 
     printf("Len: %d;\n", list->length);
 
-    if (!list->head) {
-        printf("Head: %p; Tail: %p;\n", list->head, list->tail);
-        return;
-    }
-
-    printf("From head:\n");
     Node* temp = list->head;
     while (temp) {
-        printNode(temp);
+        printValue(temp->value);
         temp = temp->next;
     }
     printf(";\n");
-
-    // Maybe I will change this boolean to an argument, or I might just delete this
-    if (false) {
-        printf("From tail:\n");
-        temp = list->tail;
-        while (temp) {
-            printNode(temp);
-            temp = temp->prev;
-        }
-        printf(";\n");
-    }
 }
 
 bool llBelongs(LinkedList* list, Node* node) {
@@ -252,6 +243,6 @@ void linkedListTest() {
     llPop(list, llGet(list, 4), false);
     llPrint(list);
 
-    llDelete(&list);
+    llDelete(&list, false);
     llPrint(list);
 }

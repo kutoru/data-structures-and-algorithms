@@ -14,7 +14,7 @@ typedef struct LinkedList {
 } LinkedList;
 
 LinkedList* llNew(DataType dataType);
-void llDelete(LinkedList** list);
+void llDelete(LinkedList** list, bool cleanupValues);
 void llPrint(LinkedList* list);
 
 // The idea here is that you will first call the get method and then do whatever you want with the node that you got

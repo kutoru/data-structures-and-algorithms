@@ -36,7 +36,7 @@ void qPrint(Queue* queue) {
 
     Node* temp = queue->head;
     while (temp) {
-        printNode(temp);
+        printValue(temp->value);
         temp = temp->next;
     }
     printf(";\n");

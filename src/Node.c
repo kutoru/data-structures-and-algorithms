@@ -1,24 +1,61 @@
 #include "Node.h"
 
-void printNode(Node* node) {
-    if (!node) {
-        printf("NULL ");
-        return;
-    }
+// ANYTYPE
 
-    // i hate this
-    switch (node->value.dataType) {
+ANYTYPE fromInt(int value) {
+    ANYTYPE out;
+    out.dataType = INT;
+    out.value.i = value;
+    return out;
+}
+
+int toInt(ANYTYPE value) {
+    if (value.dataType != INT) {
+        return -1;
+    } else {
+        return value.value.i;
+    }
+}
+
+ANYTYPE fromNode(Node* value) {
+    ANYTYPE out;
+    out.dataType = NODE;
+    out.value.n = value;
+    return out;
+}
+
+Node* toNode(ANYTYPE value) {
+    if (value.dataType != NODE) {
+        return NULL;
+    } else {
+        return value.value.n;
+    }
+}
+
+void printValue(ANYTYPE value) {
+    switch (value.dataType) {
     case NONE:
         printf("NONE ");
         break;
+    case INT:
+        printf("%d ", value.value.i);
+        break;
+    case BOOL:
+        printf("%d ", value.value.b);
+        break;
     case CHAR:
-        printf("%c", node->value.value.c);
+        printf("%c", value.value.c);
+        break;
+    case NODE:
+        printValue(value.value.n->value);
         break;
     case BTNODE:
-        printf("%c", node->value.value.btn->value);
+        printf("%c", value.value.btn->value);
         break;
     case ARRAYLIST:
-        alPrint(node->value.value.al);
+        alPrint(value.value.al);
         break;
+    default:
+        printf("Unknown value type;\n");
     }
 }

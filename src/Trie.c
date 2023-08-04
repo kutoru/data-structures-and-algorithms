@@ -69,7 +69,7 @@ void triePrint(Trie* trie) {
 
     // Printing and deleting them
     llPrint(wordList);
-    llDelete(&wordList);
+    llDelete(&wordList, true);
 }
 
 // Doesn't check for word validity. Will work only with words with letters from a to z.
@@ -246,9 +246,9 @@ void trieTest() {
 
     printf("\nCleanup:\n");
 
-    llDelete(&wordList1);
-    llDelete(&wordList2);
-    llDelete(&wordList3);
+    llDelete(&wordList1, true);
+    llDelete(&wordList2, true);
+    llDelete(&wordList3, true);
 
     alDelete(&word1);
     alDelete(&word2);
