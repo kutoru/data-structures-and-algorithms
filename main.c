@@ -14,6 +14,7 @@
 #include "src/WeightedAdjacencyMatrix.h"
 #include "src/WeightedAdjacencyList.h"
 #include "src/Map.h"
+#include "src/LRUCache.h"
 
 int main() {
     printf("\nStart\n\n");
@@ -31,7 +32,8 @@ int main() {
     // trieTest();
     // weightedAdjacencyMatrixTest();
     // weightedAdjacencyListTest();
-    mapTest();
+    // mapTest();
+    lruCacheTest();
 
     printf("\nEnd\n");
     return 0;
